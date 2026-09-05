@@ -1,0 +1,23 @@
+spring:
+  devtools:
+    restart:
+      enabled: false
+
+  docker:
+    compose:
+      enabled: false
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+app:
+  jwt:
+    cookie-secure: true
+    cookie-same-site: None

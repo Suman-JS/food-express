@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: foodexpress_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  redis:
+    image: redis:8
+    container_name: redis
+    restart: unless-stopped
+
+    ports:
+      - "6379:6379"
+
+    volumes:
+      - redis_data:/data
+
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --user
+      - "${REDIS_USERNAME}"
+      - "on"
+      - ">${REDIS_PASSWORD}"
+      - "~*"
+      - "+@all"
+      - --user
+      - "default"
+      - "off"
+
+volumes:
+  postgres_data:
+  redis_data:

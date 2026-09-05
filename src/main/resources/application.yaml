@@ -1,0 +1,89 @@
+spring:
+  config:
+    import: file:.env[.properties]
+
+  application:
+    name: foodExpress
+
+  devtools:
+    restart:
+      enabled: true
+      additional-paths:
+        - src/main/java
+      poll-interval: 1000ms
+    livereload:
+      enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/foodexpress_db
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
+      timeout: 2000ms
+
+  mail:
+    host: "smtp.gmail.com"
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+app:
+  cache:
+    ttl: ${CACHE_TTL:30m}
+  info:
+    version: ${APP_VERSION:0.0.1-SNAPSHOT}
+  websocket:
+    path: ${WEBSOCKET_PATH:/ws}
+    max-session-idle-timeout: 0
+    max-text-message-buffer-size: 65536
+  jwt:
+    secret: ${JWT_SECRET}
+    access-token-expiration: 900000
+    refresh-token-expiration: 604800000
+    cookie-name: ${JWT_REFRESH_COOKIE_NAME:refreshToken}
+    cookie-path: ${JWT_REFRESH_COOKIE_PATH:/}
+    cookie-secure: ${JWT_REFRESH_COOKIE_SECURE:false}
+    cookie-same-site: ${JWT_REFRESH_COOKIE_SAME_SITE:Lax}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:3001}
+  mail:
+    from: ${MAIL_USERNAME}
+  seed:
+    admin:
+      enabled: true
+      email: ${ADMIN_EMAIL}
+      password: ${ADMIN_PASSWORD}
+
+server:
+  port: 8080
