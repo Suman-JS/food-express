@@ -2,6 +2,8 @@ package com.suman.foodexpress.websocket;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -43,7 +45,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
         .setAllowedOriginPatterns(allowedOrigins.toArray(String[]::new));
   }
 
-  @org.springframework.context.annotation.Bean
+  @Bean
+  @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
   public ServletServerContainerFactoryBean createWebSocketContainer() {
     ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
     container.setMaxSessionIdleTimeout(maxSessionIdleTimeout);
