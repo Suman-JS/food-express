@@ -1,4 +1,4 @@
-package com.suman.foodexpress.auth.entity;
+package com.suman.foodexpress.restaurants.entity;
 
 import com.suman.foodexpress.common.enums.StatusEnum;
 import jakarta.persistence.Column;
@@ -20,13 +20,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "users")
+@Table(name = "restaurants")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Restaurant {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,9 +34,6 @@ public class User {
 
   @Column(nullable = false, unique = true, length = 100)
   private String email;
-
-  @Column(nullable = false, length = 255)
-  private String passwordHash;
 
   @Column(nullable = false, length = 100)
   private String name;
@@ -49,12 +46,7 @@ public class User {
   @Builder.Default
   private StatusEnum status = StatusEnum.ACTIVE;
 
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false, length = 20)
-  @Builder.Default
-  private UserRole role = UserRole.USER;
-
-  private Instant verifiedAt;
+  private Instant approvedAt;
 
   @CreationTimestamp
   @Column(nullable = false, updatable = false)
@@ -66,13 +58,5 @@ public class User {
 
   public boolean isEnabled() {
     return StatusEnum.ACTIVE.equals(status);
-  }
-
-  public boolean isEmailVerified() {
-    return verifiedAt != null;
-  }
-
-  public void markUpdated() {
-    this.updatedAt = Instant.now();
   }
 }

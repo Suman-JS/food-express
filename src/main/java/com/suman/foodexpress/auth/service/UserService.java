@@ -2,9 +2,9 @@ package com.suman.foodexpress.auth.service;
 
 import com.suman.foodexpress.auth.entity.User;
 import com.suman.foodexpress.auth.entity.UserRole;
-import com.suman.foodexpress.auth.entity.UserStatus;
 import com.suman.foodexpress.auth.exception.ApiException;
 import com.suman.foodexpress.auth.repository.UserRepository;
+import com.suman.foodexpress.common.enums.StatusEnum;
 import java.time.Instant;
 import java.util.UUID;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,7 +31,7 @@ public class UserService {
             .email(email)
             .passwordHash(passwordEncoder.encode(rawPassword))
             .name(name)
-            .status(UserStatus.ACTIVE)
+            .status(StatusEnum.ACTIVE)
             .role(UserRole.USER)
             .createdAt(now)
             .updatedAt(now)

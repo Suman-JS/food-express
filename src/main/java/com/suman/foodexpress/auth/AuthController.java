@@ -7,6 +7,7 @@ import com.suman.foodexpress.auth.dto.ResendVerificationRequest;
 import com.suman.foodexpress.auth.dto.UserProfileResponse;
 import com.suman.foodexpress.auth.dto.VerifyEmailRequest;
 import com.suman.foodexpress.auth.entity.User;
+import com.suman.foodexpress.auth.security.Public;
 import com.suman.foodexpress.auth.service.AuthService;
 import com.suman.foodexpress.auth.service.AuthService.RegisterResult;
 import com.suman.foodexpress.auth.service.AuthService.Tokens;
@@ -48,6 +49,7 @@ public class AuthController {
   }
 
   @PostMapping("/register")
+  @Public
   public ResponseEntity<ApiResponse<AuthResponse>> register(
       @Valid @RequestBody RegisterRequest request) {
     RegisterResult result = authService.register(request);
@@ -60,6 +62,7 @@ public class AuthController {
                 result.tokens().response(), "Registered successfully", HttpStatus.CREATED));
   }
 
+  @Public
   @PostMapping("/login")
   public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request) {
     Tokens tokens = authService.login(request);
@@ -71,6 +74,7 @@ public class AuthController {
   }
 
   @PostMapping("/refresh")
+  @Public
   public ResponseEntity<ApiResponse<AuthResponse>> refresh(HttpServletRequest httpRequest) {
     String refreshToken = cookieService.extractRefreshToken(httpRequest);
     Tokens tokens = authService.refresh(refreshToken);
