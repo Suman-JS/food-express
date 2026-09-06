@@ -1,0 +1,4 @@
+app:
+  websocket:
+    container:
+      enabled: false

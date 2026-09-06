@@ -21,3 +21,6 @@ app:
   jwt:
     cookie-secure: true
     cookie-same-site: None
+   websocket:
+    container:
+      enabled: true

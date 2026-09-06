@@ -23,7 +23,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
@@ -67,6 +67,8 @@ app:
     path: ${WEBSOCKET_PATH:/ws}
     max-session-idle-timeout: 0
     max-text-message-buffer-size: 65536
+    container:
+      enabled: true
   jwt:
     secret: ${JWT_SECRET}
     access-token-expiration: 900000
