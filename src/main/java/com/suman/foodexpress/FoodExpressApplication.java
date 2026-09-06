@@ -8,8 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class FoodExpressApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FoodExpressApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(FoodExpressApplication.class, args);
+  }
 }

@@ -2,11 +2,7 @@ package com.suman.foodexpress.common.dto;
 
 import org.springframework.http.HttpStatus;
 
-public record ApiResponse<T>(
-    boolean success,
-    String message,
-    int statusCode,
-    T data) {
+public record ApiResponse<T>(boolean success, String message, int statusCode, T data) {
 
   public static <T> ApiResponse<T> success(T data, String message, HttpStatus status) {
     return new ApiResponse<>(true, message, status.value(), data);
