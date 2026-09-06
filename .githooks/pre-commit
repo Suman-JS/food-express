@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Running Spotless..."
+
+./mvnw spotless:check
+
+if [ $? -ne 0 ]; then
+    echo "❌ Spotless check failed."
+    echo "Run './mvnw spotless:apply' to fix formatting."
+    exit 1
+fi
+
+echo "✅ Spotless check passed."

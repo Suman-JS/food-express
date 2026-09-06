@@ -15,6 +15,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d foodexpress_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
   redis:
     image: redis:8
     container_name: redis
@@ -39,6 +46,20 @@ services:
       - --user
       - "default"
       - "off"
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "redis-cli",
+          "-u",
+          "redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@localhost:6379",
+          "PING",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
 
 volumes:
   postgres_data:

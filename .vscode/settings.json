@@ -1,0 +1,9 @@
+{
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "automatic",
+
+  "[java]": {
+    "editor.defaultFormatter": "mngrm3a.vscode-google-java-formatter",
+    "editor.formatOnSave": true
+  }
+}
