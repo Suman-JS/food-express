@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.suman.foodexpress.auth.dto.ApiResponse;
 import com.suman.foodexpress.auth.dto.AuthResponse;
 import com.suman.foodexpress.auth.dto.LoginRequest;
 import com.suman.foodexpress.auth.dto.RegisterRequest;
@@ -26,6 +25,7 @@ import com.suman.foodexpress.auth.service.AuthService.Tokens;
 import com.suman.foodexpress.auth.service.CookieService;
 import com.suman.foodexpress.auth.service.EmailVerificationService;
 import com.suman.foodexpress.auth.service.UserService;
+import com.suman.foodexpress.common.dto.ApiResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
