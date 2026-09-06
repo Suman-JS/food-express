@@ -15,6 +15,8 @@ import com.suman.foodexpress.auth.service.CookieService;
 import com.suman.foodexpress.auth.service.EmailVerificationService;
 import com.suman.foodexpress.auth.service.UserService;
 import com.suman.foodexpress.common.dto.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.security.Principal;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Authentication")
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -50,6 +53,7 @@ public class AuthController {
 
   @PostMapping("/register")
   @Public
+  @Operation(summary = "Register as an user")
   public ResponseEntity<ApiResponse<AuthResponse>> register(
       @Valid @RequestBody RegisterRequest request) {
     RegisterResult result = authService.register(request);
@@ -64,6 +68,7 @@ public class AuthController {
 
   @Public
   @PostMapping("/login")
+  @Operation(summary = "Login with email and password")
   public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request) {
     Tokens tokens = authService.login(request);
     return ResponseEntity.ok()
@@ -74,6 +79,7 @@ public class AuthController {
   }
 
   @PostMapping("/refresh")
+  @Operation(summary = "Renew an access token")
   @Public
   public ResponseEntity<ApiResponse<AuthResponse>> refresh(HttpServletRequest httpRequest) {
     String refreshToken = cookieService.extractRefreshToken(httpRequest);
@@ -86,12 +92,14 @@ public class AuthController {
   }
 
   @GetMapping("/me")
+  @Operation(summary = "Retrieve profile of an authenticated user")
   public ResponseEntity<ApiResponse<UserProfileResponse>> me(Principal principal) {
     User user = userService.findByEmail(principal.getName());
     return ResponseEntity.ok(ApiResponse.success(UserProfileResponse.of(user), "User profile"));
   }
 
   @PostMapping("/logout")
+  @Operation(summary = "Logout an authenticated user")
   public ResponseEntity<ApiResponse<Void>> logout(HttpServletRequest httpRequest) {
     authService.logout(cookieService.extractRefreshToken(httpRequest));
     ResponseCookie clearCookie = cookieService.clearRefreshTokenCookie();
@@ -101,6 +109,7 @@ public class AuthController {
   }
 
   @PostMapping("/verify-email")
+  @Operation(summary = "Verify email after registration")
   @Public
   public ResponseEntity<ApiResponse<Void>> verifyEmail(
       @Valid @RequestBody VerifyEmailRequest request) {
@@ -109,6 +118,7 @@ public class AuthController {
   }
 
   @PostMapping("/resend-verification")
+  @Operation(summary = "Resend verification code")
   @Public
   public ResponseEntity<ApiResponse<Void>> resendVerification(
       @Valid @RequestBody ResendVerificationRequest request) {
