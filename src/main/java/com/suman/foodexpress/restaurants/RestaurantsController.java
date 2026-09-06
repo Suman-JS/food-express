@@ -1,5 +1,6 @@
 package com.suman.foodexpress.restaurants;
 
+import com.suman.foodexpress.auth.security.Public;
 import com.suman.foodexpress.common.dto.ApiResponse;
 import com.suman.foodexpress.restaurants.dto.RestaurantListResponse;
 import com.suman.foodexpress.restaurants.entity.Restaurant;
@@ -21,9 +22,11 @@ public class RestaurantsController {
   }
 
   @GetMapping()
+  @Public
   public ResponseEntity<ApiResponse<List<RestaurantListResponse>>> getAll() {
     List<Restaurant> restaurants = this.restaurantService.getAll();
     return ResponseEntity.ok(
-        ApiResponse.success(RestaurantListResponse.of(restaurants), "User profile"));
+        ApiResponse.success(
+            RestaurantListResponse.of(restaurants), "Restaurants retrieved successfully."));
   }
 }

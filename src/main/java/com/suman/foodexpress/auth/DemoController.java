@@ -1,5 +1,6 @@
 package com.suman.foodexpress.auth;
 
+import com.suman.foodexpress.auth.security.Public;
 import com.suman.foodexpress.common.dto.ApiResponse;
 import com.suman.foodexpress.websocket.WebSocketEventEmitter;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class DemoController {
   }
 
   @GetMapping("/public/info")
+  @Public
   public ResponseEntity<ApiResponse<String>> publicInfo() {
     return ResponseEntity.ok(ApiResponse.success("Anyone can see this"));
   }

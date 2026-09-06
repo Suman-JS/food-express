@@ -16,6 +16,7 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -32,10 +33,10 @@ public class SecurityConfig {
   private static final int PARALLELISM = 2;
   private static final int MEMORY_KB = 64 * 1024;
   private static final int ITERATIONS = 3;
-
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final RestAuthenticationEntryPoint authenticationEntryPoint;
   private final RestAccessDeniedHandler accessDeniedHandler;
+  private final RequestMatcher[] openApiRequestMatchers;
 
   public SecurityConfig(
       JwtAuthenticationFilter jwtAuthenticationFilter,
@@ -45,6 +46,15 @@ public class SecurityConfig {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     this.authenticationEntryPoint = authenticationEntryPoint;
     this.accessDeniedHandler = accessDeniedHandler;
+    var pathMatcher = PathPatternRequestMatcher.withDefaults();
+    this.openApiRequestMatchers =
+        new RequestMatcher[] {
+          pathMatcher.matcher("/v3/api-docs"),
+          pathMatcher.matcher("/v3/api-docs/**"),
+          pathMatcher.matcher("/swagger-ui.html"),
+          pathMatcher.matcher("/swagger-ui/**"),
+          pathMatcher.matcher("/webjars/**")
+        };
   }
 
   @Bean
@@ -74,9 +84,13 @@ public class SecurityConfig {
         .cors(Customizer.withDefaults())
         .httpBasic(basic -> basic.disable())
         .formLogin(form -> form.disable())
+        .logout(logout -> logout.disable())
+        .requestCache(cache -> cache.disable())
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers(publicEndpointRequestMatcher)
+                auth.requestMatchers(openApiRequestMatchers)
+                    .permitAll()
+                    .requestMatchers(publicEndpointRequestMatcher)
                     .permitAll()
                     .anyRequest()
                     .authenticated())

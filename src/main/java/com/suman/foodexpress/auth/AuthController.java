@@ -101,6 +101,7 @@ public class AuthController {
   }
 
   @PostMapping("/verify-email")
+  @Public
   public ResponseEntity<ApiResponse<Void>> verifyEmail(
       @Valid @RequestBody VerifyEmailRequest request) {
     emailVerificationService.verify(request.email().toLowerCase(), request.otp());
@@ -108,6 +109,7 @@ public class AuthController {
   }
 
   @PostMapping("/resend-verification")
+  @Public
   public ResponseEntity<ApiResponse<Void>> resendVerification(
       @Valid @RequestBody ResendVerificationRequest request) {
     emailVerificationService.resend(request.email().toLowerCase());

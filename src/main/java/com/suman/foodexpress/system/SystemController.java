@@ -1,5 +1,6 @@
 package com.suman.foodexpress.system;
 
+import com.suman.foodexpress.auth.security.Public;
 import com.suman.foodexpress.common.dto.ApiResponse;
 import com.suman.foodexpress.system.dto.ServerInfoResponse;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ public class SystemController {
   }
 
   @GetMapping("/")
+  @Public
   public ResponseEntity<ApiResponse<ServerInfoResponse>> info() {
     return ResponseEntity.ok(
         ApiResponse.success(serverInfoService.collect(), "Server information"));
