@@ -11,13 +11,13 @@ public record RestaurantListResponse(
   public static List<RestaurantListResponse> of(List<Restaurant> restaurants) {
     return restaurants.stream()
         .map(
-            user ->
+            restaurant ->
                 new RestaurantListResponse(
-                    user.getId(),
-                    user.getEmail(),
-                    user.getName(),
-                    user.getProfileImageUrl(),
-                    user.getCreatedAt()))
+                    restaurant.getId(),
+                    restaurant.getEmail(),
+                    restaurant.getName(),
+                    restaurant.getProfileImageUrl(),
+                    restaurant.getCreatedAt()))
         .toList();
   }
 }

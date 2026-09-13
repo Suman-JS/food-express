@@ -22,6 +22,28 @@ services:
       retries: 10
       start_period: 5s
 
+  minio:
+    image: minio/minio:RELEASE.2025-09-18T01-25-14Z
+    container_name: minio
+    restart: unless-stopped
+
+    command:
+      - server
+      - /data
+      - --console-address
+      - ":9001"
+
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+    volumes:
+      - minio_data:/data
+
   redis:
     image: redis:8
     container_name: redis
@@ -64,3 +86,4 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  minio_data:
